@@ -61,6 +61,13 @@ const Modal: React.FC<ModalProps> = ({
         secondaryAction();
     }, [disabled, secondaryAction]);
 
+
+    const handleClickOutside = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (e.target === e.currentTarget) {
+            handleClose();
+        }
+    };
+    
     if (!isOpen) {
         return null;
     }
@@ -80,8 +87,8 @@ const Modal: React.FC<ModalProps> = ({
                     outline-none
                     focus: outline-none
                     bg-neutral-800/70
-
                 "
+                onClick={handleClickOutside}
             >
                 <div
                     className="

@@ -17,16 +17,16 @@ const Properties = () => {
   }
 
   return (
-    <>
+    <div>
       {data.getProperties.map((item: any) => {
         return (
           <PropertyCard 
             key={item.id}
             data={item} 
-          />
+            />
         );
       })}
-    </>
+    </div>
   );
 };
 

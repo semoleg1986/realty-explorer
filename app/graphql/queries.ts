@@ -1,5 +1,13 @@
 import { gql, useQuery } from '@apollo/client';
 
+export const GET_EMAIL =gql`
+  query {
+    me {
+      email
+    }
+  }
+`
+
 export const GET_PROPERTIES = gql`
   query {
     getProperties {

@@ -2,24 +2,73 @@
 
 import {AiOutlineMenu } from 'react-icons/ai';
 import Avatar from '../Avatar';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import MenuItem from './MenuItem';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+import useLoginModal from '@/app/hooks/useLoginModal';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import useRentModal from '@/app/hooks/useRentModal';
 
-const UserMenu = () => {
+interface UserMenuProps {
+    currentUser?: string | null
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({
+    currentUser
+}) => {
+    const router = useRouter()
     const registerModal = useRegisterModal();
+    const loginModal = useLoginModal();
+    const rentModal = useRentModal();
 
     const [isOpen, setIsOpen] = useState(false)
+    const modalRef = useRef<HTMLDivElement>(null);
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
     }, [])
+    const handleLogout = () => {
+        toast.success('Logout succesful');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('email');
+        router.refresh();
+        setIsOpen(false); 
+    };
+
+    const handleClickOutside = (event: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen]);
+
+
+    const onRent = useCallback(() => {
+        if (!currentUser){
+            return  loginModal.onOpen();
+        }
+        setIsOpen(false);
+        rentModal.onOpen();
+        
+
+    }, [currentUser, loginModal, rentModal])
 
     return (
-        <div className='relative'>
+        <div className='relative' ref={modalRef}>
         <div className='flex flex-row items-center gap-3'>
             <div
-                onClick={() => {}}
+                onClick={onRent}
                 className='
                     hidden
                     md:block
@@ -33,7 +82,7 @@ const UserMenu = () => {
                     cursor-pointer
                 '
             >
-                Menu
+                {currentUser ? 'Add property' : 'Menu'}
             </div>
             <div
                 onClick={(toggleOpen)}
@@ -75,16 +124,35 @@ const UserMenu = () => {
                     '
                 >
                     <div className='flex flex-col cursor-pointer'>
-                        <>
+                        {currentUser ? (<>
                             <MenuItem 
                                 onClick={() => {}}
-                                label="Sign in"
+                                label="My properties"
+                            />
+                            <MenuItem 
+                                onClick={() => {}}
+                                label="My favorites"
+                            />
+                            <MenuItem 
+                                onClick={rentModal.onOpen}
+                                label="Add property"
+                            />
+                            <hr/>
+                            <MenuItem 
+                                onClick={handleLogout}
+                                label="Logout"
+                            />
+                        </>) : (<>
+                            <MenuItem 
+                                onClick={loginModal.onOpen}
+                                label="Login"
                             />
                             <MenuItem 
                                 onClick={registerModal.onOpen}
                                 label="Sign up"
                             />
-                        </>
+                        </>)}
+                        
                     </div>
                 </div>
             )}

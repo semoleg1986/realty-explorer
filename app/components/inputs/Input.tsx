@@ -39,6 +39,7 @@ const Input: React.FC<InputProps> = ({
         <input 
             id={id}
             disabled={disabled}
+            autoComplete={type === "password" ? "current-password" : "on"} 
             { ...register(id, {required})}
             placeholder=" "
             type={type}
