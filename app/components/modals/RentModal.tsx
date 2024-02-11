@@ -1,6 +1,6 @@
 'use client';
 import { useMemo, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import useRentModal from "@/app/hooks/useRentModal"
 
@@ -13,6 +13,10 @@ import Map from "../Map";
 import Counter from "../inputs/Counter";
 import ImageUpload from "../inputs/ImageUpload";
 import Input from "../inputs/Input";
+import { useMutation } from "@apollo/client";
+import { CREATE_PROPERTY } from "@/app/graphql/mutations";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 
@@ -26,11 +30,14 @@ enum STEPS {
 }
 
 const RentModal = () => {
+    const router = useRouter();
     const rentModal = useRentModal();
 
     const [step, setStep] = useState(STEPS.CATEGORY);
 
     const [isLoading, setIsLoading] = useState(false)
+
+    const [createProperty] = useMutation(CREATE_PROPERTY);
 
     const {
         register,
@@ -44,7 +51,7 @@ const RentModal = () => {
     } = useForm<FieldValues>({
         defaultValues: {
             category: '',
-            location: null,
+            locationValue: null,
             guestCount: 1,
             roomCount: 1,
             bathroomCount: 1,
@@ -52,12 +59,11 @@ const RentModal = () => {
             price: 1,
             title: '',
             description: '',
-            status: 'DONE',
         }
     })
 
     const category = watch('category');
-    const location = watch('location');
+    const location = watch('locationValue');
     const guestCount = watch('guestCount');
     const roomCount = watch('roomCount');
     const bathroomCount = watch('bathroomCount');
@@ -78,6 +84,40 @@ const RentModal = () => {
 
     const onNext = () => {
         setStep((value) => value + 1)
+    }
+
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        if (step !== STEPS.PRICE){
+            return onNext();
+        }
+        setIsLoading(true)
+
+        createProperty({
+            variables: {
+              title: data.title,
+              description: data.description,
+              imageSrc: data.imageSrc,
+              category: data.category,
+              roomCount: data.roomCount,
+              bathroomCount: data.bathroomCount,
+              guestCount: data.guestCount,
+              locationValue: data.locationValue.value,
+              price: parseFloat(data.price)
+            }
+          })
+        .then(() => {
+            toast.success('Property Created');
+            router.refresh();
+            reset();
+            setStep(STEPS.CATEGORY);
+            rentModal.onClose();
+        })
+        .catch((error) => {
+            toast.error(error.message);
+        })
+        .finally(() => {
+            setIsLoading(false);
+        });
     }
 
     const actionLabel = useMemo(() => {
@@ -133,7 +173,7 @@ const RentModal = () => {
                 />
                 <CountrySelect
                     value={location}
-                    onChange={(value) => setCustomValue('location', value)}
+                    onChange={(value) => setCustomValue('locationValue', value)}
                 />
                 <Map />
             </div>
@@ -239,7 +279,7 @@ const RentModal = () => {
         <Modal
             isOpen={rentModal.isOpen}
             onClose={rentModal.onClose}
-            onSubmit={onNext}
+            onSubmit={handleSubmit(onSubmit)}
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
             secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}

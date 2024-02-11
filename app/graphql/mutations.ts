@@ -16,3 +16,55 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const CREATE_PROPERTY = gql`
+  mutation CreateProperty(
+    $title: String!,
+    $description: String!,
+    $imageSrc: String!,
+    $category: String!,
+    $roomCount: Float!,
+    $bathroomCount: Float!,
+    $guestCount: Float!,
+    $locationValue: String!,
+    $price: Float!,
+  ) {
+    createProperty(createPropertyInput: {
+      title: $title,
+      description: $description,
+      imageSrc: $imageSrc,
+      category: $category,
+      roomCount: $roomCount,
+      bathroomCount: $bathroomCount,
+      guestCount: $guestCount,
+      locationValue: $locationValue,
+      price: $price
+    }) {
+      title
+      description
+      imageSrc
+      category
+      roomCount
+      bathroomCount
+      guestCount
+      locationValue
+      status
+    }
+  }
+`;
+
+export const ADD_FAVS = gql`
+  mutation AddtoFavorites($id: String!){
+    addToFavorites(id: $id){
+      favoriteIds
+    }
+  }
+`
+
+export const REMOVE_FAVS = gql`
+  mutation RemoveFromFavorites($id: String!){
+    removeFromFavorites(id: $id){
+      favoriteIds
+    }
+  }
+`
