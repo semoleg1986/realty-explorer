@@ -32,6 +32,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         toast.success('Logout succesful');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('email');
+        localStorage.removeItem('favoriteIds');
         router.refresh();
         setIsOpen(false); 
     };

@@ -4,6 +4,7 @@ export const GET_EMAIL =gql`
   query {
     me {
       email
+      favoriteIds
     }
   }
 `

@@ -27,8 +27,12 @@ const PropertyCard:React.FC<PropertyCardProps> = (
   const router = useRouter();
   const { getByValue } = useCountries();
 
-  const location = getByValue(data.locationValue);
 
+  const location = getByValue(data.locationValue);
+  const favoritesData = localStorage.getItem('favoriteIds');
+  const favoriteIds = favoritesData ? JSON.parse(favoritesData) : [];
+  const isFavorite = favoriteIds.includes(data.id);
+  
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>)=> {
       e.stopPropagation();
@@ -73,6 +77,7 @@ const PropertyCard:React.FC<PropertyCardProps> = (
           <div className="absolute top-3 right-3">
             <HeartButton 
               listingId={data.id}
+              isFavorite={isFavorite} 
             />
           </div>
         </div>

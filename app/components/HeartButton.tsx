@@ -1,5 +1,3 @@
-'use client'
-
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_FAVS, REMOVE_FAVS } from '../graphql/mutations';
@@ -8,10 +6,11 @@ import { toast } from 'react-hot-toast';
 
 interface HeartButtonProps {
     listingId: string;
+    isFavorite: boolean;
 }
 
-const HeartButton: React.FC<HeartButtonProps> = ({ listingId }) => {
-    const [isFavorite, setIsFavorite] = useState(false);
+const HeartButton: React.FC<HeartButtonProps> = ({ listingId, isFavorite }) => {
+    const [currentFavorite, setCurrentFavorite] = useState(isFavorite);
 
     const [addToFavorites] = useMutation(ADD_FAVS);
     const [removeFromFavorites] = useMutation(REMOVE_FAVS);
@@ -19,13 +18,13 @@ const HeartButton: React.FC<HeartButtonProps> = ({ listingId }) => {
     const handleToggleFavorite = async (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation(); 
         try {
-            if (isFavorite) {
+            if (currentFavorite) {
                 await removeFromFavorites({
                     variables: {
                         id: listingId,
                     },
                 });
-                setIsFavorite(false);
+                setCurrentFavorite(false); 
                 toast.success('Removed from favorites');
             } else {
                 await addToFavorites({
@@ -33,7 +32,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({ listingId }) => {
                         id: listingId,
                     },
                 });
-                setIsFavorite(true);
+                setCurrentFavorite(true);
                 toast.success('Added to favorites');
             }
         } catch (error) {
@@ -52,7 +51,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({ listingId }) => {
             />
             <AiFillHeart
                 size={24}
-                className={isFavorite ? 'fill-rose-500' : 'fill-neutral-500/70'}
+                className={currentFavorite ? 'fill-rose-500' : 'fill-neutral-500/70'} // Используем currentFavorite для установки класса
             />
         </div>
     );
