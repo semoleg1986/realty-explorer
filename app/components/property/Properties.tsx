@@ -35,7 +35,6 @@ const Properties = () => {
         2xl:grid-cols-6
         gap-8
       ">
-        <div>
           {data.getProperties.map((item: any) => {
             return (
               <PropertyCard 
@@ -45,7 +44,6 @@ const Properties = () => {
                 />
             );
           })}
-        </div>
       </div>
     </Container>
   );

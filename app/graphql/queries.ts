@@ -28,6 +28,25 @@ export const GET_PROPERTIES = gql`
   }
 `;
 
+export const GET_PROPERTIES_BY_USER = gql`
+  query {
+    getAllPropertiesByUser {
+        id
+        title
+        description
+        imageSrc
+        createdAt
+        updatedAt
+        category
+        roomCount
+        bathroomCount
+        guestCount
+        locationValue
+        price
+    }
+  }
+`;
+
 export const GET_PROPERTY = gql`
   query getProperty($id: String!) {
     getPropertyWithId(id: $id) {

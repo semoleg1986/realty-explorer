@@ -127,11 +127,11 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     <div className='flex flex-col cursor-pointer'>
                         {currentUser ? (<>
                             <MenuItem 
-                                onClick={() => {}}
+                                onClick={() => router.push('/my-properties')}
                                 label="My properties"
                             />
                             <MenuItem 
-                                onClick={() => {}}
+                                onClick={() => router.push('/favs')}
                                 label="My favorites"
                             />
                             <MenuItem 
