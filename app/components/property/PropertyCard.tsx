@@ -47,7 +47,7 @@ const PropertyCard:React.FC<PropertyCardProps> = (
 
   return (
     <div
-      onClick={() => router.push(`/properties/${data.id}`)} 
+      onClick={() => router.push(`/detail/${data.id}`)} 
       className="
         col-span-1 cursor-pointer group
       "

@@ -40,7 +40,8 @@ const Properties = () => {
             return (
               <PropertyCard 
                 key={item.id}
-                data={item} 
+                data={item}
+                disabled 
                 />
             );
           })}

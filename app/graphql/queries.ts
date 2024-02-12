@@ -27,3 +27,22 @@ export const GET_PROPERTIES = gql`
     }
   }
 `;
+
+export const GET_PROPERTY = gql`
+  query getProperty($id: String!) {
+    getPropertyWithId(id: $id) {
+      id
+      title
+      description
+      imageSrc
+      createdAt
+      updatedAt
+      category
+      roomCount
+      bathroomCount
+      guestCount
+      locationValue
+      price
+    }
+  }
+`;
