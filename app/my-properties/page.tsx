@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react';
 import Container from '../components/Container';
 import PropertyCard from '../components/property/PropertyCard';
 import EmptyState from '../components/EmptyState';
