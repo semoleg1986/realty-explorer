@@ -9,7 +9,6 @@ import RegisterModal from "./components/modals/RegisterModal";
 import LoginModal from "./components/modals/LoginModal";
 import RentModal from "./components/modals/RentModal";
 import ToasterProvider from "./providers/ToasterProvider";
-import Head from "next/head";
 
 const font = Nunito({ subsets: ["latin"] });
 
