@@ -9,6 +9,7 @@ import RegisterModal from "./components/modals/RegisterModal";
 import LoginModal from "./components/modals/LoginModal";
 import RentModal from "./components/modals/RentModal";
 import ToasterProvider from "./providers/ToasterProvider";
+import Head from "next/head";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -24,6 +25,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
       <body className={font.className}>
         <ToasterProvider />
         <Providers>
