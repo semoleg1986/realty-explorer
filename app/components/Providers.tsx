@@ -5,7 +5,8 @@ import { PropsWithChildren } from 'react';
 
 export const Providers = ({ children }: PropsWithChildren) => {
   const httpLink = new HttpLink({
-    uri: 'http://localhost:3000/graphql',
+    uri: 'https://server-graphql-nestjs.onrender.com/graphql',
+    // uri: 'http://localhost:3000/graphql',
   });
 
   const authLink = setContext((_, { headers }) => {
