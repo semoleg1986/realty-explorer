@@ -1,3 +1,7 @@
+## Deploy
+
+https://bucolic-smakager-23e6b4.netlify.app
+
 ## Downloading
 
 ```
