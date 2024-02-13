@@ -2,8 +2,7 @@ import { Property } from "@/app/interfaces/Property.props"
 import Heading from "../navbar/Heading"
 import useCountries from "@/app/hooks/useCountries"
 import Image from "next/image";
-import HeartButton from "../HeartButton";
-import { CATEGORIES } from "@/app/data/Categories";
+
 
 const PropertyDetail:React.FC<{ property: Property }> = ({property}) => {
 

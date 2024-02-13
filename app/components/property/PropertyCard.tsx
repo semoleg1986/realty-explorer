@@ -4,7 +4,6 @@ import useCountries from "@/app/hooks/useCountries";
 import { Property } from "@/app/interfaces/Property.props"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
 import HeartButton from "../HeartButton";
 
 interface PropertyCardProps {
@@ -33,18 +32,6 @@ const PropertyCard:React.FC<PropertyCardProps> = (
   const favoriteIds = favoritesData ? JSON.parse(favoritesData) : [];
   const isFavorite = favoriteIds.includes(data.id);
   
-  const handleCancel = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>)=> {
-      e.stopPropagation();
-
-      if (disabled) {
-        return;
-      }
-
-      onAction?.(actionId);
-    }, [onAction, actionId, disabled]
-  )
-
   return (
     <div
       onClick={() => router.push(`/detail/${data.id}`)} 
