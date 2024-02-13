@@ -105,18 +105,6 @@ const LoginModal = () => {
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3">
             <hr/>
-            <Button 
-                outline
-                label="Continuer with Google"
-                icon={FcGoogle}
-                onClick={()=>{}}
-            />
-            <Button 
-                outline
-                label="Continuer with Github"
-                icon={AiFillGithub}
-                onClick={()=>{}}
-            />
             <div
                 className="
                 text-neutral-500
