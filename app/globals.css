@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --lvh: calc(100vh + 100vw);
+}
+
 html,
 body,
- :root {
-  height: 100%;
- }
+.container {
+  height: var(--lvh);
+}
